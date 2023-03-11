@@ -1,0 +1,14 @@
+docker 이미지 가져오기
+	docker pull [이미지명]
+
+docker 이미지 조회
+	docker images
+
+docker 이미지 삭제
+	docker image rm -f [이미지명]
+
+docker 컨테이너 생성
+	docker run --name [이름] -d [이미지명]
+
+docker 컨테이너 조회
+	docker container ls
