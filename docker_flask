@@ -30,7 +30,7 @@ Docker로 Python 웹 애플리케이션 컨테이너화
 	    app.run(host="0.0.0.0", port=8080)	
 
 6. Dockerfile을 통해 Docker 이미지 빌드
-	docker build -t my-app
+	docker build -t my-app .
 	
 7. Docker 컨테이너 실행
 	docker run -p 8080:8080 my-app
