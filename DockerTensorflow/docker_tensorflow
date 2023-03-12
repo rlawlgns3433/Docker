@@ -1,0 +1,56 @@
+Docker로 Tensorflow 시작하기
+
+1. Docker 설치
+	apt install docker.io
+
+2. Docker를 실행할 디렉토리 설정
+	cd /
+	mkdir app
+	cd app
+	
+3. requirements.txt 파일 작성
+	nano requirements.txt
+	tensorflow
+	keras		 작성
+
+4. Dockerfile 작성
+	FROM python:3.9
+	WORKDIR /app/Tensorflow
+	COPY requirements.txt ./
+	RUN pip instal --no-cache-dir -r requirements.txt
+	COPY . .
+	CMD ["python3", "./my-tensorflow.py"]
+
+5. Tensorflow QuickStart를 위한 코드 작성
+	import tensorflow as tf
+	from tensorflow import keras
+
+	# Load the MNIST dataset
+	(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+
+	# Normalize the pixel values to be between 0 and 1
+	x_train = x_train / 255.0
+	x_test = x_test / 255.0
+	
+	# Define the model architecture
+	model = keras.Sequential([
+	  keras.layers.Flatten(input_shape=(28, 28)),
+	  keras.layers.Dense(128, activation='relu'),
+	  keras.layers.Dense(10, activation='softmax')
+	])
+
+	# Compile the model
+	model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+	
+	# Train the model
+	model.fit(x_train, y_train, epochs=5, validation_data=(x_test, y_test))
+	
+	# Evaluate the model on the test set
+	test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
+	print('Test accuracy:', test_acc)
+
+6. Dockerfile을 통해 Docker 이미지 빌드
+	docker build -t my-tensorflow .
+
+7. Docker 컨테이너 실행
+	docker run -it my-tensorflow
